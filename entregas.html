@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Cadastro Facial</title>
+
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #f2f2f2;
+    text-align: center;
+    margin: 0;
+    padding: 10px;
+  }
+
+  img.logo {
+    width: 40vw;
+    max-width: 160px;
+    margin: 5px auto;
+  }
+
+  input, select {
+    width: 90vw;
+    max-width: 320px;
+    padding: 6px;
+    margin: 4px auto;
+    font-size: 13px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    display: block;
+    background: #fff;
+  }
+
+  button {
+    width: 60vw;
+    max-width: 220px;
+    padding: 10px;
+    margin: 8px;
+    font-size: 15px;
+    border-radius: 8px;
+    border: none;
+    background: #0066cc;
+    color: white;
+    cursor: pointer;
+  }
+
+  .camera-container {
+    width: 80vw;
+    max-width: 300px;
+    margin: auto;
+  }
+
+  video {
+    width: 100%;
+    border-radius: 12px;
+  }
+
+  .preview-box {
+    width: 80vw;
+    max-width: 240px;
+    height: 200px;
+    margin: 10px auto;
+    border: 2px dashed #999;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+  }
+
+  .preview-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 12px;
+  }
+
+  .lgpd {
+    background: #fff3cd;
+    padding: 12px;
+    border-radius: 10px;
+    font-size: 14px;
+    max-width: 320px;
+    margin: auto;
+  }
+</style>
+</head>
+
+<body>
+
+<img src="logo.png" class="logo">
+
+<h4>Cadastro Facial Antony de Oliveira</h4>
+
+<div class="lgpd" id="lgpdBox">
+  Ao enviar sua foto, você autoriza o uso dela para cadastro no sistema de controle de acesso do condomínio.
+  <br><br>
+  <button onclick="aceitarLGPD()">OK</button>
+</div>
+
+<div id="formulario" style="display:none;">
+
+  <input id="nome" placeholder="Nome completo">
+
+  <select id="bloco">
+    <option value="">Selecione o Bloco</option>
+    <option value="01">01</option>
+    <option value="02">02</option>
+    <option value="03">03</option>
+    <option value="04">04</option>
+  </select>
+
+  <select id="apto">
+    <option value="">Selecione o Apartamento</option>
+    <option value="101">101</option>
+    <option value="102">102</option>
+    <option value="103">103</option>
+    <option value="104">104</option>
+    <option value="201">201</option>
+    <option value="202">202</option>
+  </select>
+
+  <div class="camera-container">
+    <video id="video" autoplay playsinline></video>
+  </div>
+
+  <button onclick="capturar()">Capturar Foto</button>
+
+  <div class="preview-box">
+    <img id="fotoPreview">
+  </div>
+
+  <button onclick="enviar()">Finalizar</button>
+
+  <canvas id="canvas" style="display:none;"></canvas>
+
+</div>
+
+<script>
+let stream = null;
+
+function aceitarLGPD() {
+  document.getElementById("lgpdBox").style.display = "none";
+  document.getElementById("formulario").style.display = "block";
+  iniciarCamera();
+}
+
+async function iniciarCamera() {
+  if (stream) {
+    stream.getTracks().forEach(t => t.stop());
+  }
+
+  stream = await navigator.mediaDevices.getUserMedia({
+video: { facingMode: { ideal: "environment" } }
+
+  });
+
+  document.getElementById("video").srcObject = stream;
+}
+
+function capturar() {
+  const video = document.getElementById("video");
+  const canvas = document.getElementById("canvas");
+  const ctx = canvas.getContext("2d");
+
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+  ctx.drawImage(video, 0, 0);
+
+  document.getElementById("fotoPreview").src =
+    canvas.toDataURL("image/jpeg");
+}
+
+function enviar() {
+  const nome = document.getElementById("nome").value;
+  const bloco = document.getElementById("bloco").value;
+  const apto = document.getElementById("apto").value;
+
+  if (!nome || !bloco || !apto) {
+    alert("Preencha todos os campos!");
+    return;
+  }
+
+  const img = document.getElementById("canvas").toDataURL("image/jpeg");
+
+  fetch("https://script.google.com/macros/s/AKfycbznmyTHb6XVuT_qRhH6XREZfA2MThl6EPQ6FVDoHmPqtix8t_ZicT-zR1lJFN5KATRH/exec", {
+    method: "POST",
+    body: JSON.stringify({ nome, bloco, apto, img })
+  });
+
+  setTimeout(() => location.reload(), 1000);
+}
+</script>
+
+</body>
+</html>

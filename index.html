@@ -53,7 +53,7 @@
   }
 
   video {
-    width: 100%;
+    width: 70%;
     border-radius: 12px;
   }
 
@@ -171,7 +171,14 @@ function capturar() {
 
   document.getElementById("fotoPreview").src =
     canvas.toDataURL("image/jpeg");
+
+  // ⬇️ Rola a página para o final suavemente
+  window.scrollTo({
+    top: document.body.scrollHeight,
+    behavior: "smooth"
+  });
 }
+
 
 function enviar() {
   const nome = document.getElementById("nome").value;
@@ -196,5 +203,6 @@ function enviar() {
 
 </body>
 </html>
+
 
 

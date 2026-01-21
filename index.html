@@ -26,7 +26,7 @@
     max-width: 320px;
     padding: 6px;
     margin: 4px auto;
-    font-size: 13px;
+    font-size: 20px;
     border-radius: 6px;
     border: 1px solid #ccc;
     display: block;
@@ -85,8 +85,39 @@
     max-width: 320px;
     margin: auto;
   }
+  
+  button:disabled {
+  background: #999;
+  cursor: not-allowed;
+}
+
 </style>
 </head>
+
+<div id="popupAguarde" style="
+  display:none;
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.6);
+  z-index:9999;
+  align-items:center;
+  justify-content:center;
+">
+  <div style="
+    background:#fff;
+    padding:20px 30px;
+    border-radius:12px;
+    font-size:18px;
+    font-weight:bold;
+  ">
+    Aguarde <span id="contador">10</span> segundos...
+  </div>
+</div>
+
+
 
 <body>
 
@@ -102,12 +133,12 @@
 
 <div id="formulario" style="display:none;">
 
-  <input id="nome" placeholder="Nome completo">
+ <!--<input id="nome" placeholder="Nome completo"> -->
 
-  <select id="bloco">
+<select id="bloco">
     <option value="">Selecione o Bloco</option>
     
-    <option value="Não Informado">Não Informado</option>
+    <option value="Não Informado">Não Foi Informado</option>
     <option value="01">01</option>
     <option value="02">02</option>
     <option value="03">03</option>
@@ -125,6 +156,7 @@
 
   <select id="apto">
     <option value="">Selecione o Apartamento</option>
+    <option value="Não Informado">Não Foi Informado</option>
     <option value="101">101</option>
     <option value="102">102</option>
     <option value="103">103</option>
@@ -149,13 +181,14 @@
     <video id="video" autoplay playsinline></video>
   </div>
 
-  <button onclick="capturar()">Capturar Foto</button>
+  <button onclick="capturar()">Capture Foto da Etiqueta</button>
 
   <div class="preview-box">
     <img id="fotoPreview">
   </div>
 
-  <button onclick="enviar()">Finalizar</button>
+<button id="btnFinalizar" onclick="enviar()" disabled>Finalizar</button>
+
 
   <canvas id="canvas" style="display:none;"></canvas>
 
@@ -195,6 +228,9 @@ function capturar() {
   document.getElementById("fotoPreview").src =
     canvas.toDataURL("image/jpeg");
 
+  // ✅ Habilita o botão Finalizar
+  document.getElementById("btnFinalizar").disabled = false;
+
   // ⬇️ Rola a página para o final suavemente
   window.scrollTo({
     top: document.body.scrollHeight,
@@ -204,30 +240,62 @@ function capturar() {
 
 
 function enviar() {
-  const nome = document.getElementById("nome").value;
+
+
+
+
+
+  
+<!--  const nome = document.getElementById("nome").value; -->
   const bloco = document.getElementById("bloco").value;
   const apto = document.getElementById("apto").value;
 
-  if (!nome || !bloco || !apto) {
+ <!-- if (!nome || !bloco || !apto)  -->
+ if (!bloco || !apto)   {
     alert("Preencha todos os campos!");
     return;
   }
 
+  let tempo = 10;
+  const contador = document.getElementById("contador");
+
+  contador.textContent = tempo;
+
+  // 🔔 Mostra popup
+  document.getElementById("popupAguarde").style.display = "flex";
+
+  const intervalo = setInterval(() => {
+    tempo--;
+    contador.textContent = tempo;
+
+    if (tempo <= 0) {
+      clearInterval(intervalo);
+      document.getElementById("popupAguarde").style.display = "none";
+    }
+  }, 1000);
+  
+  
   const img = document.getElementById("canvas").toDataURL("image/jpeg");
 
   fetch("https://script.google.com/macros/s/AKfycbz_TO3_3JL_ku9mXxYg_ja9n8hf6muiAnteq4wO8w5DQKTZk9ovYYt-zpPqwncK6fCS/exec", {
     method: "POST",
-    body: JSON.stringify({ nome, bloco, apto, img })
+    <!-- body: JSON.stringify({ nome, bloco, apto, img }) -->
+	body: JSON.stringify({ bloco, apto, img })
   });
 
-  setTimeout(() => location.reload(), 1000);
+  setTimeout(() => location.reload(), 5000);
+  
+
+  
+  
 }
+
+
+
 </script>
 
 </body>
 </html>
-
-
 
 
 

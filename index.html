@@ -175,16 +175,30 @@ function avancarEtapa1() {
 function capturar() {
   const canvas = document.getElementById("canvas");
   const ctx = canvas.getContext("2d");
+  const video = document.getElementById("video");
+
   canvas.width = video.videoWidth;
   canvas.height = video.videoHeight;
   ctx.drawImage(video, 0, 0);
 
   const img = canvas.toDataURL("image/jpeg");
-  document.getElementById("fotoPreview").src = img;
-  document.getElementById("btnAvancarFoto").disabled = false;
 
+  document.getElementById("fotoPreview").src = img;
+
+  // guarda a foto
   fotos.push(img);
+
+  // 🔹 habilita o botão avançar
+  const btn = document.getElementById("btnAvancarFoto");
+  btn.disabled = false;
+  btn.style.display = "block";
+
+  // ⬆️ sobe a tela para evidenciar o botão
+  setTimeout(() => {
+    btn.scrollIntoView({ behavior: "smooth", block: "center" });
+  }, 200);
 }
+
 
 function perguntarMaisFotos() {
   if (fotos.length >= MAX_FOTOS) {
@@ -210,21 +224,14 @@ function maisFotos(resposta) {
 }
 
 async function finalizar() {
-  document.getElementById("popupFinal").style.display = "flex";
-
-  for (let img of fotos) {
-    await fetch(SCRIPT_URL, {
-      method: "POST",
-      body: JSON.stringify({
-        bloco: bloco.value,
-        apto: apto.value,
-        img: img
-      })
-    });
-  }
-
-  let tempo = 10;
+  const popup = document.getElementById("popupFinal");
   const contador = document.getElementById("contador");
+
+  popup.style.display = "flex";
+
+  // ⏱️ inicia o contador IMEDIATAMENTE
+  let tempo = 10;
+  contador.textContent = tempo;
 
   const intervalo = setInterval(() => {
     tempo--;
@@ -235,7 +242,24 @@ async function finalizar() {
       location.reload();
     }
   }, 1000);
+
+  // 📤 envio das fotos roda em paralelo
+  for (let img of fotos) {
+    fetch(SCRIPT_URL, {
+      method: "POST",
+      body: JSON.stringify({
+        bloco: bloco.value,
+        apto: apto.value,
+        img: img
+      })
+    });
+  }
 }
+
+
+
+
+
 </script>
 
 </body>

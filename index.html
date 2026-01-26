@@ -3,266 +3,228 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Cadastro Entregas</title>
 
 <style>
-  body {
-    font-family: Arial, sans-serif;
-    background: #f2f2f2;
-    text-align: center;
-    margin: 0;
-    padding: 10px;
-  }
-
-  img.logo {
-    width: 40vw;
-    max-width: 160px;
-    margin: 5px auto;
-  }
-
-  input, select {
-    width: 90vw;
-    max-width: 320px;
-    padding: 6px;
-    margin: 4px auto;
-    font-size: 15px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-    display: block;
-    background: #fff;
-  }
-
-  button {
-    width: 60vw;
-    max-width: 220px;
-    padding: 10px;
-    margin: 8px;
-    font-size: 15px;
-    border-radius: 8px;
-    border: none;
-    background: #0066cc;
-    color: white;
-    cursor: pointer;
-  }
-
-  .camera-container {
-    width: 80vw;
-    max-width: 300px;
-    margin: auto;
-  }
-
-  video {
-    width: 70%;
-    border-radius: 12px;
-  }
-
-  .preview-box {
-    width: 80vw;
-    max-width: 240px;
-    height: 200px;
-    margin: 10px auto;
-    border: 2px dashed #999;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #fff;
-  }
-
-  .preview-box img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 12px;
-  }
-
-  .lgpd {
-    background: #fff3cd;
-    padding: 12px;
-    border-radius: 10px;
-    font-size: 14px;
-    max-width: 320px;
-    margin: auto;
-  }
-  
-  button:disabled {
-  background: #999;
-  cursor: not-allowed;
+body {
+  font-family: Arial, sans-serif;
+  background: #f2f2f2;
+  text-align: center;
+  margin: 0;
+  padding: 10px;
 }
 
+img.logo {
+  width: 80vw;
+  max-width: 320px;
+  margin: 10px auto;
+}
+
+select, button {
+  width: 90vw;
+  max-width: 320px;
+  padding: 10px;
+  margin: 8px auto;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  display: block;
+}
+
+button {
+  background: #0066cc;
+  color: white;
+  border: none;
+}
+
+button:disabled {
+  background: #999;
+}
+
+.camera-container {
+  max-width: 300px;
+  margin: auto;
+}
+
+video {
+  width: 100%;
+  border-radius: 12px;
+}
+
+.preview-box {
+  width: 240px;
+  height: 200px;
+  margin: 10px auto;
+  border: 2px dashed #999;
+  border-radius: 12px;
+  background: #fff;
+}
+
+.preview-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+/* Popup padrão */
+.popup {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 9999;
+  align-items: center;
+  justify-content: center;
+}
+
+.popup div {
+  background: #fff;
+  padding: 20px 25px;
+  border-radius: 12px;
+  font-size: 18px;
+  font-weight: bold;
+}
 </style>
 </head>
-
-<div id="popupAguarde" style="
-  display:none;
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  background:rgba(0,0,0,0.6);
-  z-index:9999;
-  align-items:center;
-  justify-content:center;
-">
-  <div style="
-    background:#fff;
-    padding:20px 30px;
-    border-radius:12px;
-    font-size:18px;
-    font-weight:bold;
-  ">
-    Abrindo Caixa em <span id="contador">10</span> segundos...
-  </div>
-</div>
-
-
 
 <body>
 
 <img src="logo.png" class="logo">
+<h3>Cadastro de Encomendas</h3>
 
-<h4>CADASTRO DE ENCOMENDAS ANTONY</h4>
+<!-- ETAPA 1 -->
+<div id="etapa1">
+  <h4>Para qual Bloco e Apartamento?</h4>
 
-<div class="lgpd" id="lgpdBox">
-  SOMENTE PARA ENTREGAS SIMPLES, PARA QUALQUER OUTRA FAVOR CHAMAR NO INTERFONE. CASO QUEIRA RECEBER UM COMPROVANTE FAVOR COLOCAR UM EMAIL.
-  <br><br>
-  <button onclick="aceitarLGPD()">OK</button>
-</div>
-
-<div id="formulario" style="display:none;">
-
- <!--<input id="nome" placeholder="Nome completo"> -->
-
-<select id="bloco">
+  <select id="bloco">
     <option value="">Selecione o Bloco</option>
-    
-    <option value="Não Informado">Não Foi Informado</option>
-    <option value="01">01</option>
-    <option value="02">02</option>
-    <option value="03">03</option>
-    <option value="04">04</option>
-    <option value="05">05</option>
-    <option value="06">06</option>
-    <option value="07">07</option>
-    <option value="08">08</option>
-    <option value="09">09</option>
-    <option value="10">10</option>
-    <option value="11">11</option>
-    <option value="12">12</option>
-    <option value="13">13</option>
+    <option>01</option><option>02</option><option>03</option>
+    <option>04</option><option>05</option><option>06</option>
   </select>
 
   <select id="apto">
     <option value="">Selecione o Apartamento</option>
-    <option value="Não Informado">Não Foi Informado</option>
-    <option value="101">101</option>
-    <option value="102">102</option>
-    <option value="103">103</option>
-    <option value="104">104</option>
-    <option value="201">201</option>
-    <option value="202">202</option>
-    <option value="203">203</option>
-    <option value="204">204</option>
-    <option value="301">301</option>
-    <option value="302">302</option>
-    <option value="303">303</option>
-    <option value="304">304</option>
-    <option value="401">401</option>
-    <option value="402">402</option>
-    <option value="403">403</option>
-    <option value="404">404</option>
-
-  
+    <option>101</option><option>102</option><option>103</option>
+    <option>201</option><option>202</option><option>203</option>
   </select>
+
+  <button onclick="avancarEtapa1()">Avançar</button>
+</div>
+
+<!-- ETAPA 2 -->
+<div id="etapa2" style="display:none;">
+  <h4>Capture a foto da Etiqueta de cada volume</h4>
 
   <div class="camera-container">
     <video id="video" autoplay playsinline></video>
   </div>
 
-  <button onclick="capturar()">Capture Foto da Etiqueta</button>
+  <button onclick="capturar()">Capturar Foto</button>
 
   <div class="preview-box">
     <img id="fotoPreview">
   </div>
 
-<button id="btnFinalizar" onclick="enviar()" disabled>Finalizar</button>
-
-
-  <canvas id="canvas" style="display:none;"></canvas>
-
+  <button id="btnAvancarFoto" onclick="perguntarMaisFotos()" disabled>
+    Avançar
+  </button>
 </div>
 
-<script>
-let stream = null;
+<!-- POPUP MAIS FOTOS -->
+<div id="popupMaisFotos" class="popup">
+  <div>
+    <p id="textoMaisFotos"></p>
+    <button onclick="maisFotos(true)">SIM</button>
+    <button onclick="maisFotos(false)">NÃO</button>
+  </div>
+</div>
 
-function aceitarLGPD() {
-  document.getElementById("lgpdBox").style.display = "none";
-  document.getElementById("formulario").style.display = "block";
-  iniciarCamera();
-}
+<!-- POPUP FINAL -->
+<div id="popupFinal" class="popup">
+  <div>
+    Abrindo caixa em <span id="contador">10</span> segundos...
+  </div>
+</div>
+
+<canvas id="canvas" style="display:none;"></canvas>
+
+<script>
+let stream;
+let fotos = [];
+const MAX_FOTOS = 5;
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz_TO3_3JL_ku9mXxYg_ja9n8hf6muiAnteq4wO8w5DQKTZk9ovYYt-zpPqwncK6fCS/exec";
 
 async function iniciarCamera() {
-  if (stream) {
-    stream.getTracks().forEach(t => t.stop());
-  }
-
   stream = await navigator.mediaDevices.getUserMedia({
-video: { facingMode: { ideal: "environment" } }
-
+    video: { facingMode: { ideal: "environment" } }
   });
-
   document.getElementById("video").srcObject = stream;
 }
 
+function avancarEtapa1() {
+  if (!bloco.value || !apto.value) {
+    alert("Selecione bloco e apartamento");
+    return;
+  }
+  document.getElementById("etapa1").style.display = "none";
+  document.getElementById("etapa2").style.display = "block";
+  iniciarCamera();
+}
+
 function capturar() {
-  const video = document.getElementById("video");
   const canvas = document.getElementById("canvas");
   const ctx = canvas.getContext("2d");
-
   canvas.width = video.videoWidth;
   canvas.height = video.videoHeight;
   ctx.drawImage(video, 0, 0);
 
-  document.getElementById("fotoPreview").src =
-    canvas.toDataURL("image/jpeg");
+  const img = canvas.toDataURL("image/jpeg");
+  document.getElementById("fotoPreview").src = img;
+  document.getElementById("btnAvancarFoto").disabled = false;
 
-  // ✅ Habilita o botão Finalizar
-  document.getElementById("btnFinalizar").disabled = false;
-
-  // ⬇️ Rola a página para o final suavemente
-  window.scrollTo({
-    top: document.body.scrollHeight,
-    behavior: "smooth"
-  });
+  fotos.push(img);
 }
 
-
-function enviar() {
-
-
-
-
-
-  
-<!--  const nome = document.getElementById("nome").value; -->
-  const bloco = document.getElementById("bloco").value;
-  const apto = document.getElementById("apto").value;
-
- <!-- if (!nome || !bloco || !apto)  -->
- if (!bloco || !apto)   {
-    alert("Preencha todos os campos!");
+function perguntarMaisFotos() {
+  if (fotos.length >= MAX_FOTOS) {
+    finalizar();
     return;
+  }
+
+  document.getElementById("textoMaisFotos").innerText =
+    `Adicionar foto de mais um volume para Bloco ${bloco.value} - Apto ${apto.value}?`;
+
+  document.getElementById("popupMaisFotos").style.display = "flex";
+}
+
+function maisFotos(resposta) {
+  document.getElementById("popupMaisFotos").style.display = "none";
+
+  if (resposta) {
+    document.getElementById("btnAvancarFoto").disabled = true;
+    document.getElementById("fotoPreview").src = "";
+  } else {
+    finalizar();
+  }
+}
+
+async function finalizar() {
+  document.getElementById("popupFinal").style.display = "flex";
+
+  for (let img of fotos) {
+    await fetch(SCRIPT_URL, {
+      method: "POST",
+      body: JSON.stringify({
+        bloco: bloco.value,
+        apto: apto.value,
+        img: img
+      })
+    });
   }
 
   let tempo = 10;
   const contador = document.getElementById("contador");
-
-  contador.textContent = tempo;
-
-  // 🔔 Mostra popup
-  document.getElementById("popupAguarde").style.display = "flex";
 
   const intervalo = setInterval(() => {
     tempo--;
@@ -270,37 +232,11 @@ function enviar() {
 
     if (tempo <= 0) {
       clearInterval(intervalo);
-      document.getElementById("popupAguarde").style.display = "none";
+      location.reload();
     }
   }, 1000);
-  
-  
-  const img = document.getElementById("canvas").toDataURL("image/jpeg");
-
-  fetch("https://script.google.com/macros/s/AKfycbz_TO3_3JL_ku9mXxYg_ja9n8hf6muiAnteq4wO8w5DQKTZk9ovYYt-zpPqwncK6fCS/exec", {
-    method: "POST",
-    <!-- body: JSON.stringify({ nome, bloco, apto, img }) -->
-	body: JSON.stringify({ bloco, apto, img })
-  });
-
-  setTimeout(() => location.reload(), 7000);
-  
-
-  
-  
 }
-
-
-
 </script>
 
 </body>
 </html>
-
-
-
-
-
-
-
-

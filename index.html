@@ -41,10 +41,11 @@ button:disabled {
   background: #999;
 }
 
-.camera-container {
-  max-width: 300px;
-  margin: auto;
-}
+  .camera-container {
+    width: 80vw;
+    max-width: 300px;
+    margin: auto;
+  }
 
 video {
   width: 100%;
@@ -97,16 +98,45 @@ video {
 <div id="etapa1">
   <h4>Para qual Bloco e Apartamento?</h4>
 
-  <select id="bloco">
+<select id="bloco">
     <option value="">Selecione o Bloco</option>
-    <option>01</option><option>02</option><option>03</option>
-    <option>04</option><option>05</option><option>06</option>
+    
+    <option value="Não Informado">Não Informado na Etiqueta</option>
+    <option value="01">01</option>
+    <option value="02">02</option>
+    <option value="03">03</option>
+    <option value="04">04</option>
+    <option value="05">05</option>
+    <option value="06">06</option>
+    <option value="07">07</option>
+    <option value="08">08</option>
+    <option value="09">09</option>
+    <option value="10">10</option>
+    <option value="11">11</option>
+    <option value="12">12</option>
+    <option value="13">13</option>
   </select>
 
   <select id="apto">
     <option value="">Selecione o Apartamento</option>
-    <option>101</option><option>102</option><option>103</option>
-    <option>201</option><option>202</option><option>203</option>
+    <option value="Não Informado">Não Informado na Etiqueta </option>
+    <option value="101">101</option>
+    <option value="102">102</option>
+    <option value="103">103</option>
+    <option value="104">104</option>
+    <option value="201">201</option>
+    <option value="202">202</option>
+    <option value="203">203</option>
+    <option value="204">204</option>
+    <option value="301">301</option>
+    <option value="302">302</option>
+    <option value="303">303</option>
+    <option value="304">304</option>
+    <option value="401">401</option>
+    <option value="402">402</option>
+    <option value="403">403</option>
+    <option value="404">404</option>
+  
   </select>
 
   <button onclick="avancarEtapa1()">Avançar</button>
@@ -264,3 +294,4 @@ async function finalizar() {
 
 </body>
 </html>
+
